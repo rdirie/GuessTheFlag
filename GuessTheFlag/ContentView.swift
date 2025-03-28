@@ -16,7 +16,6 @@ struct ContentView: View {
     @State private var correctAnswer = Int.random(in:0...2)
     
     var body: some View {
-        //Test
         ZStack{
             LinearGradient(colors: [.blue, .black], startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
