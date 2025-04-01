@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showingScore = false
+    @State private var resetScore = false
     @State private var scoreTitle = ""
+    @State private var resetBanner = "| Game Over |"
     @State private var pointScore = 0
+    @State private var questionNumber = 1
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US"].shuffled()
     
@@ -57,9 +60,15 @@ struct ContentView: View {
                 .clipShape(.rect(cornerRadius: 20))
                 
                 Spacer()
-                Spacer()
                 
                 Text("Score: \(pointScore)")
+                    .foregroundStyle(.white)
+                    .font(.title.bold())
+                
+                Spacer()
+                Spacer()
+                
+                Text("Question: \(questionNumber)/8")
                     .foregroundStyle(.white)
                     .font(.title.bold())
                 
@@ -72,6 +81,12 @@ struct ContentView: View {
             Button("Continue", action: askQuestion)
         } message: {
             Text("Your score is \(pointScore)")
+        }
+        
+        .alert(resetBanner, isPresented: $resetScore) {
+            Button("Restart", action: reset)
+        } message: {
+            Text("Your final score is \(pointScore)!")
         }
     }
     
@@ -88,9 +103,23 @@ struct ContentView: View {
     }
     
     func askQuestion(){
+        if (questionNumber == 8){
+            resetScore = true
+        }
+        else{
+            questionNumber += 1
+            countries.shuffle()
+            correctAnswer = Int.random(in: 0...2)
+        }
+    }
+    
+    func reset(){
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        pointScore = 0
+        questionNumber = 1
     }
+
 }
 
 #Preview {
