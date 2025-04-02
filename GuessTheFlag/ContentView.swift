@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+struct FlagImage: View{
+    var imageText: String
+    
+    var body: some View{
+        Image(imageText)
+            .clipShape(.capsule)
+            .shadow(radius: 5)
+    }
+}
+
 struct ContentView: View {
     @State private var showingScore = false
     @State private var resetScore = false
@@ -20,6 +30,7 @@ struct ContentView: View {
     @State private var correctAnswer = Int.random(in:0...2)
     
     var body: some View {
+        
         ZStack{
             RadialGradient(stops: [
                 .init(color: Color(red: 0.1, green: 0.2, blue: 0.45), location: 0.3),
@@ -47,9 +58,7 @@ struct ContentView: View {
                         Button{
                             flagTapped(number)
                         } label: {
-                            Image(countries[number])
-                                .clipShape(.capsule)
-                                .shadow(radius: 5)
+                            FlagImage(imageText: countries[number])
                         }
                         
                     }
